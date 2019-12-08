@@ -35,13 +35,13 @@ func newNodeStreamRequest(n *Node) *nodeStreamRequest {
 	}
 
 	// heartbeat message must exist in dialect and correspond to standard
-	mp, ok := n.conf.Dialect.messages[0]
+	mp, ok := n.conf.Dialect.Messages[0]
 	if ok == false || mp.crcExtra != 50 {
 		return nil
 	}
 
 	// request data stream message must exist in dialect and correspond to standard
-	mp, ok = n.conf.Dialect.messages[66]
+	mp, ok = n.conf.Dialect.Messages[66]
 	if ok == false || mp.crcExtra != 148 {
 		return nil
 	}
@@ -130,7 +130,7 @@ func (sr *nodeStreamRequest) onEventFrame(evt *EventFrame) {
 		}
 
 		for _, stream := range streams {
-			msg := reflect.New(sr.n.conf.Dialect.messages[66].elemType)
+			msg := reflect.New(sr.n.conf.Dialect.Messages[66].ElemType)
 			msg.Elem().FieldByName("TargetSystem").SetUint(uint64(evt.SystemId()))
 			msg.Elem().FieldByName("TargetComponent").SetUint(uint64(evt.ComponentId()))
 			msg.Elem().FieldByName("ReqStreamId").SetUint(uint64(stream))

@@ -22,7 +22,7 @@ func newNodeHeartbeat(n *Node) *nodeHeartbeat {
 	}
 
 	// heartbeat message must exist in dialect and correspond to standard
-	mp, ok := n.conf.Dialect.messages[0]
+	mp, ok := n.conf.Dialect.Messages[0]
 	if ok == false || mp.crcExtra != 50 {
 		return nil
 	}
@@ -43,7 +43,7 @@ func (h *nodeHeartbeat) run() {
 	// take version from dialect if possible
 	mavlinkVersion := uint64(3)
 	if h.n.conf.Dialect != nil {
-		mavlinkVersion = uint64(h.n.conf.Dialect.version)
+		mavlinkVersion = uint64(h.n.conf.Dialect.Version)
 	}
 
 	ticker := time.NewTicker(h.n.conf.HeartbeatPeriod)
@@ -52,7 +52,7 @@ func (h *nodeHeartbeat) run() {
 	for {
 		select {
 		case <-ticker.C:
-			msg := reflect.New(h.n.conf.Dialect.messages[0].elemType)
+			msg := reflect.New(h.n.conf.Dialect.Messages[0].ElemType)
 			msg.Elem().FieldByName("Type").SetInt(int64(h.n.conf.HeartbeatSystemType))
 			msg.Elem().FieldByName("Autopilot").SetInt(int64(h.n.conf.HeartbeatAutopilotType))
 			msg.Elem().FieldByName("BaseMode").SetInt(0)

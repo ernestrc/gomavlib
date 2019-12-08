@@ -85,15 +85,15 @@ func dialectMsgGoToDef(in string) string {
 // Dialect contains available messages and the configuration needed to encode and
 // decode them.
 type Dialect struct {
-	version  uint
-	messages map[uint32]*dialectMessage
+	Version  uint
+	Messages map[uint32]*DialectMessage
 }
 
 // NewDialect allocates a Dialect.
 func NewDialect(version uint, messages []Message) (*Dialect, error) {
 	d := &Dialect{
-		version:  version,
-		messages: make(map[uint32]*dialectMessage),
+		Version:  version,
+		Messages: make(map[uint32]*DialectMessage),
 	}
 
 	for _, msg := range messages {
@@ -101,7 +101,7 @@ func NewDialect(version uint, messages []Message) (*Dialect, error) {
 		if err != nil {
 			return nil, fmt.Errorf("message %T: %s", msg, err)
 		}
-		d.messages[msg.GetId()] = mp
+		d.Messages[msg.GetId()] = mp
 	}
 
 	return d, nil
@@ -125,29 +125,29 @@ type dialectMessageField struct {
 	isExtension bool
 }
 
-type dialectMessage struct {
-	elemType     reflect.Type
+type DialectMessage struct {
+	ElemType     reflect.Type
 	fields       []*dialectMessageField
 	sizeNormal   byte
 	sizeExtended byte
 	crcExtra     byte
 }
 
-func newDialectMessage(msg Message) (*dialectMessage, error) {
-	mp := &dialectMessage{}
-	mp.elemType = reflect.TypeOf(msg).Elem()
+func newDialectMessage(msg Message) (*DialectMessage, error) {
+	mp := &DialectMessage{}
+	mp.ElemType = reflect.TypeOf(msg).Elem()
 
-	mp.fields = make([]*dialectMessageField, mp.elemType.NumField())
+	mp.fields = make([]*dialectMessageField, mp.ElemType.NumField())
 
 	// get name
-	if strings.HasPrefix(mp.elemType.Name(), "Message") == false {
+	if strings.HasPrefix(mp.ElemType.Name(), "Message") == false {
 		return nil, fmt.Errorf("message struct name must begin with 'Message'")
 	}
-	msgName := dialectMsgGoToDef(mp.elemType.Name()[len("Message"):])
+	msgName := dialectMsgGoToDef(mp.ElemType.Name()[len("Message"):])
 
 	// collect message fields
-	for i := 0; i < mp.elemType.NumField(); i++ {
-		field := mp.elemType.Field(i)
+	for i := 0; i < mp.ElemType.NumField(); i++ {
+		field := mp.ElemType.Field(i)
 		arrayLength := byte(0)
 		goType := field.Type
 
@@ -286,8 +286,8 @@ func newDialectMessage(msg Message) (*dialectMessage, error) {
 	return mp, nil
 }
 
-func (mp *dialectMessage) decode(buf []byte, isFrameV2 bool) (Message, error) {
-	msg := reflect.New(mp.elemType)
+func (mp *DialectMessage) decode(buf []byte, isFrameV2 bool) (Message, error) {
+	msg := reflect.New(mp.ElemType)
 
 	if isFrameV2 == true {
 		// in V2 buffer length can be > message or < message
@@ -330,7 +330,7 @@ func (mp *dialectMessage) decode(buf []byte, isFrameV2 bool) (Message, error) {
 	return msg.Interface().(Message), nil
 }
 
-func (mp *dialectMessage) encode(msg Message, isFrameV2 bool) ([]byte, error) {
+func (mp *DialectMessage) encode(msg Message, isFrameV2 bool) ([]byte, error) {
 	var buf []byte
 
 	if isFrameV2 == true {

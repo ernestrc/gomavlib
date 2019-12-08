@@ -115,7 +115,7 @@ func (p *Parser) Checksum(f Frame) uint16 {
 	}
 
 	// CRC_EXTRA byte is added at the end of the data
-	h.Write([]byte{p.conf.Dialect.messages[msg.GetId()].crcExtra})
+	h.Write([]byte{p.conf.Dialect.Messages[msg.GetId()].crcExtra})
 
 	return h.Sum16()
 }
@@ -283,7 +283,7 @@ func (p *Parser) Read() (Frame, error) {
 
 	// decode message if in dialect and validate checksum
 	if p.conf.Dialect != nil {
-		if mp, ok := p.conf.Dialect.messages[f.GetMessage().GetId()]; ok {
+		if mp, ok := p.conf.Dialect.Messages[f.GetMessage().GetId()]; ok {
 			if sum := p.Checksum(f); sum != f.GetChecksum() {
 				return nil, newParserError("wrong checksum (expected %.4x, got %.4x, id=%d)",
 					sum, f.GetChecksum(), f.GetMessage().GetId())
@@ -351,7 +351,7 @@ func (p *Parser) Write(f Frame, route bool) error {
 			return fmt.Errorf("message cannot be encoded since dialect is nil")
 		}
 
-		mp, ok := p.conf.Dialect.messages[safeFrame.GetMessage().GetId()]
+		mp, ok := p.conf.Dialect.Messages[safeFrame.GetMessage().GetId()]
 		if ok == false {
 			return fmt.Errorf("message cannot be encoded since it is not in the dialect")
 		}
