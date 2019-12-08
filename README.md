@@ -1,15 +1,15 @@
 
 # gomavlib
 
-[![GoDoc](https://godoc.org/github.com/aler9/gomavlib?status.svg)](https://godoc.org/github.com/aler9/gomavlib)
-[![Go Report Card](https://goreportcard.com/badge/github.com/aler9/gomavlib)](https://goreportcard.com/report/github.com/aler9/gomavlib)
-[![Build Status](https://travis-ci.org/aler9/gomavlib.svg?branch=master)](https://travis-ci.org/aler9/gomavlib)
+[![GoDoc](https://godoc.org/github.com/ernestrc/gomavlib?status.svg)](https://godoc.org/github.com/ernestrc/gomavlib)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ernestrc/gomavlib)](https://goreportcard.com/report/github.com/ernestrc/gomavlib)
+[![Build Status](https://travis-ci.org/ernestrc/gomavlib.svg?branch=master)](https://travis-ci.org/ernestrc/gomavlib)
 
 gomavlib is a library that implements the Mavlink protocol (2.0 and 1.0) in the Go programming language. It can power UGVs, UAVs, ground stations, monitoring systems or routers acting in a Mavlink network.
 
 Mavlink is a lighweight and transport-independent protocol that is mostly used to communicate with unmanned ground vehicles (UGV) and unmanned aerial vehicles (UAV, drones, quadcopters, multirotors). It is supported by the most popular open-source flight controllers (Ardupilot and PX4).
 
-This library powers the [**mavp2p**](https://github.com/aler9/mavp2p) router.
+This library powers the [**mavp2p**](https://github.com/ernestrc/mavp2p) router.
 
 ## Features
 
@@ -34,7 +34,7 @@ This library powers the [**mavp2p**](https://github.com/aler9/mavp2p) router.
 Go &ge; 1.12 is required, and modules must be enabled (i.e. there must be a file called `go.mod` in your project folder). To install the library, it is enough to write its name in the import section of the source files that will use it. Go will take care of downloading the needed files:
 ```go
 import (
-    "github.com/aler9/gomavlib"
+    "github.com/ernestrc/gomavlib"
 )
 ```
 
@@ -59,13 +59,13 @@ import (
 
 ## Documentation
 
-https://godoc.org/github.com/aler9/gomavlib
+https://godoc.org/github.com/ernestrc/gomavlib
 
 ## Dialect generation
 
 Standard dialects are provided in the `dialects/` folder, but it's also possible to use custom dialects, that must be converted into Go files by using the `dialgen` utility:
 ```
-go get github.com/aler9/gomavlib/dialgen
+go get github.com/ernestrc/gomavlib/dialgen
 dialgen --output=dialect.go my_dialect.xml
 ```
 

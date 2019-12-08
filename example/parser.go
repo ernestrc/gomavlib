@@ -6,8 +6,8 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/aler9/gomavlib"
-	"github.com/aler9/gomavlib/dialects/ardupilotmega"
+	"github.com/ernestrc/gomavlib"
+	"github.com/ernestrc/gomavlib/dialects/ardupilotmega"
 )
 
 func main() {

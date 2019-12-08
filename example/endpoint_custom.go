@@ -5,8 +5,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/aler9/gomavlib"
-	"github.com/aler9/gomavlib/dialects/ardupilotmega"
+	"github.com/ernestrc/gomavlib"
+	"github.com/ernestrc/gomavlib/dialects/ardupilotmega"
 )
 
 // this is an example struct that implements io.ReadWriteCloser.

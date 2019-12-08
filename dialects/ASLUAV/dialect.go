@@ -5,7 +5,7 @@
 package ASLUAV
 
 import (
-	"github.com/aler9/gomavlib"
+	"github.com/ernestrc/gomavlib"
 )
 
 // Dialect contains the dialect object that can be passed to the library.
